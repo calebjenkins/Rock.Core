@@ -10,7 +10,7 @@ namespace Rock.DependencyInjection.Heuristics
     {
         public bool TryGetConstructor(Type type, IResolver resolver, out ConstructorInfo constructor)
         {
-            if (type.IsAbstract)
+            if (type.GetTypeInfo().IsAbstract)
             {
                 constructor = null;
                 return false;

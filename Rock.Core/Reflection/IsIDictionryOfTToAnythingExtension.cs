@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Rock.Reflection
 {
@@ -29,7 +30,7 @@ namespace Rock.Reflection
         private static bool EqualsIDictionaryOfTToAnything<TKey>(this Type type)
         {
             return
-                type.IsGenericType
+                type.GetTypeInfo().IsGenericType
                    && type.GetGenericTypeDefinition() == typeof(IDictionary<,>)
                    && type.GetGenericArguments()[0] == typeof(TKey);
         }

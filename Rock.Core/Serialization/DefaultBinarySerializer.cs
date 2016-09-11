@@ -1,4 +1,5 @@
-﻿using Rock.Immutable;
+﻿#if NET45
+using Rock.Immutable;
 
 namespace Rock.Serialization
 {
@@ -22,3 +23,4 @@ namespace Rock.Serialization
         }
     }
 }
+#endif

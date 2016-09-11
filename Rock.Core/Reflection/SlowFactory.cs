@@ -29,7 +29,7 @@ namespace Rock.Reflection
                 throw GetTypeNotFoundException(assemblyQualifiedType);
             }
 
-            if (type.IsAbstract)
+            if (type.GetTypeInfo().IsAbstract)
             {
                 throw GetTypeIsAbstractException(type);
             }

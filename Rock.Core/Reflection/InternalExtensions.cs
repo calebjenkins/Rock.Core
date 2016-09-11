@@ -1,5 +1,6 @@
 using System;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Rock.Reflection
 {
@@ -23,7 +24,7 @@ namespace Rock.Reflection
 
         public static bool RequiresBoxingWhenConvertingTo(this Type fromType, Type toType)
         {
-            return fromType.IsValueType && !toType.IsValueType;
+            return fromType.GetTypeInfo().IsValueType && !toType.GetTypeInfo().IsValueType;
         }
     }
 }

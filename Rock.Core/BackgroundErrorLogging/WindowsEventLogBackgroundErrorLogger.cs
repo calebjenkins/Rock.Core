@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NET45
+using System;
 using System.Diagnostics;
 
 namespace Rock.BackgroundErrorLogging
@@ -83,3 +84,4 @@ namespace Rock.BackgroundErrorLogging
         }
     }
 }
+#endif

@@ -1,3 +1,4 @@
+#if NET45
 // A ModuleInitializer class is required by the IL weaving mechanism used by
 // Rock.Rock.StaticDependencyInjection. It can be modified in any way as long as
 // the following conditions are met:
@@ -35,3 +36,4 @@ namespace Rock.Rock.StaticDependencyInjection
         }
     }
 }
+#endif

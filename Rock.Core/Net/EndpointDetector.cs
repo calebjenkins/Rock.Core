@@ -117,14 +117,18 @@ namespace Rock.Net
 
             private async Task<Socket> ConnectSocket()
             {
-                var hostEntry = Dns.GetHostEntry(_server);
+                var hostEntry = await Dns.GetHostEntryAsync(_server).ConfigureAwait(false);
 
                 foreach (var address in hostEntry.AddressList)
                 {
                     var ipe = new IPEndPoint(address, _port);
                     var socket = new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
+#if NET45
                     await Task.Factory.FromAsync((callback, state) => socket.BeginConnect(ipe, callback, state), socket.EndConnect, null).ConfigureAwait(false);
+#else
+                    await socket.ConnectAsync(ipe).ConfigureAwait(false);
+#endif
 
                     if (socket.Connected)
                     {

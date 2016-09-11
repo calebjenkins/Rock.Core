@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using Rock.Reflection;
+using System.Reflection;
 
 namespace Rock.Conversion
 {
@@ -63,6 +64,7 @@ namespace Rock.Conversion
         private static bool IsIDictionaryOfStringToObject(Type type)
         {
             return type
+                .GetTypeInfo()
                 .GetInterfaces()
                 .Any(i => i == typeof(IDictionary<string, object>));
         }
@@ -89,7 +91,7 @@ namespace Rock.Conversion
 
         private static bool EqualsIDictionaryOfStringToAnything(Type type)
         {
-            return type.IsGenericType
+            return type.GetTypeInfo().IsGenericType
                    && type.GetGenericTypeDefinition() == typeof(IDictionary<,>)
                    && type.GetGenericArguments()[0] == typeof(string);
         }
@@ -97,10 +99,7 @@ namespace Rock.Conversion
         private Func<object, ExpandoObject> SetValuesFromIDictionaryOfStringToAnythingItems(Type type)
         {
             var getEnumeratorMethod = typeof(IEnumerable).GetMethod("GetEnumerator");
-            var getSourceItems =
-                (Func<IEnumerable, IEnumerator>)Delegate.CreateDelegate(
-                    typeof(Func<IEnumerable, IEnumerator>),
-                    getEnumeratorMethod);
+            var getSourceItems = (Func<IEnumerable, IEnumerator>)getEnumeratorMethod.CreateDelegate(typeof(Func<IEnumerable, IEnumerator>));
 
             var keyValuePairType =
                 typeof(KeyValuePair<,>).MakeGenericType(

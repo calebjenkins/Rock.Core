@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+#if NET45
 using System.Diagnostics;
+#else
+using Rock.Diagnostics;
+#endif
 using System.Linq;
 using System.Reflection;
 
@@ -14,7 +18,7 @@ namespace Rock
     {
         private static readonly IEnumerable<string> _assembliesToIgnore = new[]
         {
-            typeof(EntryAssemblyApplicationIdProvider).Assembly.GetName().Name,
+            typeof(EntryAssemblyApplicationIdProvider).GetTypeInfo().Assembly.GetName().Name,
             "mscorlib",
             "Microsoft.VisualStudio.HostingProcess.Utilities",
             "nunit.core",
@@ -44,14 +48,18 @@ namespace Rock
 
         private static Assembly GetEntryAssemblyFromStackTrace()
         {
-            return (from frame in (new StackTrace().GetFrames() ?? Enumerable.Empty<StackFrame>())
-                    select frame.GetMethod() into method
-                    where method != null
-                    select method.DeclaringType into declaringType
-                    where declaringType != null
-                    let assemblyName = declaringType.Assembly.GetName().Name
-                    where !_assembliesToIgnore.Contains(assemblyName)
-                    select declaringType.Assembly).LastOrDefault();
+            var entryType = (from frame in (new StackTrace().GetFrames() ?? Enumerable.Empty<StackFrame>())
+                             select frame.GetMethod() into method
+                             where method != null
+                             select method.DeclaringType into declaringType
+                             where declaringType != null
+                             let assemblyName = declaringType.GetTypeInfo().Assembly.GetName().Name
+                             where !_assembliesToIgnore.Contains(assemblyName)
+                             select declaringType).LastOrDefault();
+
+            return entryType != null
+                ? entryType.GetTypeInfo().Assembly
+                : null;
         }
 
         private static Assembly ThrowNoEntryAssemblyFoundException()

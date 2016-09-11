@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NET45
+using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -31,3 +32,4 @@ namespace Rock.Serialization
         }
     }
 }
+#endif

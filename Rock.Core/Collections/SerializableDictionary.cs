@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+#if NET45
 using System.Runtime.Serialization;
+#endif
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -14,7 +16,9 @@ namespace Rock.Collections
     /// </summary>
     /// <typeparam name="TKey">The type of the key.</typeparam>
     /// <typeparam name="TValue">The type of the value.</typeparam>
+#if NET45
     [Serializable]
+#endif
     [DebuggerDisplay("Count = {Count}")]
     public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IXmlSerializable
     {
@@ -42,6 +46,7 @@ namespace Rock.Collections
             _valueSerializer = valueSerializer ?? _defaultValueSerializer;
         }
 
+#if NET45
         /// <summary>
         /// Initializes a new instance of the <see cref="SerializableDictionary{TKey,TValue}"/> class.
         /// </summary>
@@ -49,6 +54,7 @@ namespace Rock.Collections
             : base(info, context)
         {
         }
+#endif
 
         XmlSchema IXmlSerializable.GetSchema()
         {

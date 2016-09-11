@@ -1,4 +1,8 @@
-﻿using System.Configuration;
+﻿#if NET45
+using System.Configuration;
+#else
+using Rock.Configuration;
+#endif
 
 namespace Rock
 {

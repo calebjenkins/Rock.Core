@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Rock.Reflection
 {
@@ -13,7 +14,7 @@ namespace Rock.Reflection
                 throw new ArgumentNullException("targetType");
             }
 
-            if (targetType.IsGenericTypeDefinition)
+            if (targetType.GetTypeInfo().IsGenericTypeDefinition)
             {
                 throw new ArgumentException("targetType type must not be an open generic type.", "targetType");
             }
@@ -23,7 +24,7 @@ namespace Rock.Reflection
                 throw new ArgumentNullException("openGenericType");
             }
 
-            if (!openGenericType.IsGenericTypeDefinition)
+            if (!openGenericType.GetTypeInfo().IsGenericTypeDefinition)
             {
                 throw new ArgumentException("openGenericType type must be an open generic type.", "targetType");
             }
@@ -40,7 +41,7 @@ namespace Rock.Reflection
 
                 isSpecifiedOpenGenericType =
                     t =>
-                        t.IsGenericType
+                        t.GetTypeInfo().IsGenericType
                         && t.GetGenericTypeDefinition() == openGenericType
                         && t.GetGenericArguments().Select((genericArgument, index) => new { genericArgument, index }).Count(x => typeArgumentsToMatch[x.index] == null || x.genericArgument == typeArgumentsToMatch[x.index]) == typeArgumentsToMatch.Count;
             }
@@ -48,13 +49,13 @@ namespace Rock.Reflection
             {
                 isSpecifiedOpenGenericType =
                     t =>
-                        t.IsGenericType
+                        t.GetTypeInfo().IsGenericType
                         && t.GetGenericTypeDefinition() == openGenericType;
             }
 
-            if (openGenericType.IsInterface)
+            if (openGenericType.GetTypeInfo().IsInterface)
             {
-                if (targetType.IsInterface && isSpecifiedOpenGenericType(targetType))
+                if (targetType.GetTypeInfo().IsInterface && isSpecifiedOpenGenericType(targetType))
                 {
                     return targetType;
                 }
@@ -71,7 +72,7 @@ namespace Rock.Reflection
                     return type;
                 }
 
-                type = type.BaseType;
+                type = type.GetTypeInfo().BaseType;
             } while (type != null);
 
             return type;

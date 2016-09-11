@@ -14,14 +14,14 @@ namespace Rock.Utilities
 
             foreach (var type in assembly.GetTypes())
             {
-                if (Attribute.IsDefined(type, attributeType))
+                if (type.GetTypeInfo().IsDefined(attributeType))
                 {
-                    yield return type;
+                    yield return type.GetTypeInfo();
                 }
 
                 var members =
                     type.GetMembers(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
-                        .Where(m => !(m is Type) && Attribute.IsDefined(m, attributeType));
+                        .Where(m => !(m is TypeInfo) && m.IsDefined(attributeType));
 
                 foreach (var member in members)
                 {

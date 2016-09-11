@@ -92,7 +92,7 @@ namespace Rock.Cryptography
                 {
                     if (closeStream)
                     {
-                        inputStream.Close();
+                        inputStream.Dispose();
                     }
                 }
             }

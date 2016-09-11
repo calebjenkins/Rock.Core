@@ -37,7 +37,7 @@ namespace Rock.Reflection
         /// </returns>
         public static Func<T> GetConstructorFunc<T>(this Type type)
         {
-            if (type.IsAbstract)
+            if (type.GetTypeInfo().IsAbstract)
             {
                 throw new ArgumentException(string.Format("'type', {0}, must not be abstract.", type), "type");
             }
@@ -47,7 +47,7 @@ namespace Rock.Reflection
                 throw new ArgumentException(string.Format("'typeof(T)', {0}, must be assignable from 'type', {1}.", typeof(T), type), "type");
             }
 
-            if (!type.IsValueType && !type.GetConstructors().Any(IsDefaultConstructor))
+            if (!type.GetTypeInfo().IsValueType && !type.GetConstructors().Any(IsDefaultConstructor))
             {
                 throw new ArgumentException(string.Format("'type', {0}, must have a public parameterless constructor.", type), "type");
             }

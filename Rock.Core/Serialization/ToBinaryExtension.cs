@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NET45
+using System;
 
 namespace Rock.Serialization
 {
@@ -15,3 +16,4 @@ namespace Rock.Serialization
         }
     }
 }
+#endif

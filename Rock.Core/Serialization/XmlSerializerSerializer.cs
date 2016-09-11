@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 using Rock.IO;
+using System.Reflection;
 
 namespace Rock.Serialization
 {
@@ -68,7 +69,7 @@ namespace Rock.Serialization
         /// </remarks>
         private static Type CheckType(Type type, object item)
         {
-            return !type.IsAbstract ? type : item.GetType();
+            return !type.GetTypeInfo().IsAbstract ? type : item.GetType();
         }
     }
 }

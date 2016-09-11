@@ -1,0 +1,52 @@
+﻿{
+  "version": "1.0.0-*",
+  "dependencies": {
+    
+  },
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50",
+      "dependencies": {
+        "MailKit": "1.4.2.1",
+        "Microsoft.Extensions.Configuration": "1.0.0",
+        "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0",
+        "Microsoft.Extensions.Configuration.Json": "1.0.0",
+        "Microsoft.Extensions.DependencyModel": "1.0.0",
+        "NETStandard.Library": "1.6.0",
+        "System.Collections.Concurrent": "4.0.12",
+        "System.ComponentModel.TypeConverter": "4.1.0",
+        "System.Diagnostics.StackTrace": "4.0.1",
+        "System.Dynamic.Runtime": "4.0.11",
+        "System.Net.Http": "4.1.0",
+        "System.Runtime.Serialization.Json": "4.0.1",
+        "System.Runtime.Serialization.Primitives": "4.1.1",
+        "System.Runtime.Serialization.Xml": "4.1.1",
+        "System.Xml.XmlDocument": "4.0.1",
+        "System.Xml.XmlSerializer": "4.0.11"
+      }
+    },
+    "net45": {
+      "frameworkAssemblies": {
+        "System.Xml": {
+          "type": "build",
+          "version": "4.0.0"
+        },
+        "System.Runtime.Serialization": {
+          "type": "build",
+          "version": "4.0.0"
+        },
+        "System.Net.Http": {
+          "type": "build",
+          "version": "4.0.0"
+        },
+        "System.Configuration": {
+          "type": "build",
+          "version": "4.0.0"
+        }
+      }
+    }
+  },
+  "buildOptions": {
+    "xmlDoc": true
+  }
+}

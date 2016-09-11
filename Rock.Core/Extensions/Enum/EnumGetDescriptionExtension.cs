@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace Rock.Extensions.Enum
 {
@@ -20,11 +21,11 @@ namespace Rock.Extensions.Enum
                     enumValue,
                     value =>
                     {
-                        var field = enumValue.GetType().GetField(enumValue.ToString());
+                        var field = enumValue.GetType().GetTypeInfo().GetField(enumValue.ToString());
 
                         if (field != null)
                         {
-                            var attribute = (DescriptionAttribute)Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute));
+                            var attribute = field.GetCustomAttribute<DescriptionAttribute>();
 
                             if (attribute != null)
                             {

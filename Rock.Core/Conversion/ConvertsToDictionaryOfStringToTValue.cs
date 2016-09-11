@@ -43,9 +43,8 @@ namespace Rock.Conversion
                 return x => x;
             }
 
-            var getEnumerator = (Func<IEnumerable, IEnumerator>) Delegate.CreateDelegate(
-                typeof(Func<IEnumerable, IEnumerator>),
-                typeof(IEnumerable).GetMethod("GetEnumerator"));
+            var getEnumeratorMethod = typeof(IEnumerable).GetMethod("GetEnumerator");
+            var getEnumerator = (Func<IEnumerable, IEnumerator>)getEnumeratorMethod.CreateDelegate(typeof(Func<IEnumerable, IEnumerator>));
 
             var keyValuePairType =
                 typeof(KeyValuePair<,>).MakeGenericType(

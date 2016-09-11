@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Rock.Immutable;
+using System.Reflection;
 
 namespace Rock.Reflection
 {
@@ -57,15 +58,15 @@ namespace Rock.Reflection
         private static bool IsNonNullablePrimitivish(this Type type, IEnumerable<Type> primitivishTypes)
         {
             return
-                type.IsPrimitive
-                || type.IsEnum
+                type.GetTypeInfo().IsPrimitive
+                || type.GetTypeInfo().IsEnum
                 || primitivishTypes.Any(t => t == type);
         }
 
         private static bool IsNullablePrimitivish(this Type type, IEnumerable<Type> primitivishTypes)
         {
             return
-                type.IsGenericType
+                type.GetTypeInfo().IsGenericType
                 && type.GetGenericTypeDefinition() == typeof(Nullable<>)
                 && type.GetGenericArguments()[0].IsNonNullablePrimitivish(primitivishTypes);
         }

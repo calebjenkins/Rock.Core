@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Rock.Collections
 {
@@ -9,7 +10,7 @@ namespace Rock.Collections
         public virtual IEnumerable<DeepEqualityComparer.PropertyOrField> GetFieldsAndProperties(Type type)
         {
             return
-                type.GetProperties()
+                type.GetTypeInfo().GetProperties()
                     .Where(p =>
                         p.CanRead
                         && p.GetGetMethod() != null

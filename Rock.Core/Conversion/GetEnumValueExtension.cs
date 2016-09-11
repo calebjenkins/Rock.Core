@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Reflection;
 
 namespace Rock.Conversion
 {
@@ -20,7 +21,7 @@ namespace Rock.Conversion
             {
                 return _values.GetOrAdd(value, x =>
                 {
-                    if (!typeof(T).IsEnum)
+                    if (!typeof(T).GetTypeInfo().IsEnum)
                     {
                         throw new InvalidOperationException("Unable to get enum value. Type '{0}' is not an enum.");
                     }

@@ -6,14 +6,20 @@ using Rock.Serialization;
 
 namespace Rock.KeyValueStores
 {
+#if NET45
     [Serializable]
+#endif
     [DataContract]
     public class FileBucketItem : IBucketItem
     {
+#if NET45
         [NonSerialized]
+#endif
         private Mutex _mutex;
 
+#if NET45
         [NonSerialized]
+#endif
         private readonly ISerializer _serializer;
 
         [DataMember]

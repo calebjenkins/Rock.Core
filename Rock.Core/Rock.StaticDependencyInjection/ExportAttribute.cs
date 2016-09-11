@@ -1,3 +1,4 @@
+#if NET45
 using System;
 
 // ReSharper disable once CheckNamespace
@@ -45,3 +46,4 @@ namespace Rock.StaticDependencyInjection
         public string Name { get; set; }
     }
 }
+#endif

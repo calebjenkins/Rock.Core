@@ -92,16 +92,16 @@ namespace Rock.Extensions.DateTime
 
             if (duration.TotalDays <= -2)
             {
-                return postedTime.ToString("MMMM") + " " + postedTime.Day + " at " + postedTime.ToShortTimeString();
+                return postedTime.ToString("MMMM") + " " + postedTime.Day + " at " + postedTime.ToString("t");
             }
             if (duration.TotalHours <= -24)
             {
                 if (postedTime.DayOfWeek == currentTime.AddDays(1).DayOfWeek)
                 {
-                    return "Tomorrow at " + postedTime.ToShortTimeString();
+                    return "Tomorrow at " + postedTime.ToString("t");
                 }
 
-                return postedTime.ToString("MMMM") + " " + postedTime.Day + " at " + postedTime.ToShortTimeString();
+                return postedTime.ToString("MMMM") + " " + postedTime.Day + " at " + postedTime.ToString("t");
             }
             if (duration.Hours < -1)
             {
@@ -129,20 +129,20 @@ namespace Rock.Extensions.DateTime
             }
             if (duration.Days > 6)
             {
-                return postedTime.ToString("MMMM") + " " + postedTime.Day + " at " + postedTime.ToShortTimeString();
+                return postedTime.ToString("MMMM") + " " + postedTime.Day + " at " + postedTime.ToString("t");
             }
             if (duration.TotalDays >= 2)
             {
-                return postedTime.DayOfWeek + " at " + postedTime.ToShortTimeString();
+                return postedTime.DayOfWeek + " at " + postedTime.ToString("t");
             }
             if (duration.TotalHours >= 24)
             {
                 if (postedTime.DayOfWeek == currentTime.AddDays(-1).DayOfWeek)
                 {
-                    return "Yesterday at " + postedTime.ToShortTimeString();
+                    return "Yesterday at " + postedTime.ToString("t");
                 }
 
-                return postedTime.DayOfWeek + " at " + postedTime.ToShortTimeString();
+                return postedTime.DayOfWeek + " at " + postedTime.ToString("t");
             }
             if (duration.Hours > 1)
             {
@@ -168,7 +168,7 @@ namespace Rock.Extensions.DateTime
             {
                 return "1 second ago";
             }
-            return postedTime.ToString("MMMM") + " " + postedTime.Day + " at " + postedTime.ToShortTimeString();
+            return postedTime.ToString("MMMM") + " " + postedTime.Day + " at " + postedTime.ToString("t");
         }
 
         #endregion

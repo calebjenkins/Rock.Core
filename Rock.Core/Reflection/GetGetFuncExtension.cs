@@ -51,7 +51,7 @@ namespace Rock.Reflection
 
             var body =
                 Expression.Property(
-                    instanceParameter.EnsureConvertableTo(propertyInfo.ReflectedType),
+                    instanceParameter.EnsureConvertableTo(propertyInfo.DeclaringType),
                     propertyInfo);
 
             var lambda =

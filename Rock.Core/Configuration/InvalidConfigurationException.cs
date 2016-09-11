@@ -1,12 +1,16 @@
 ﻿using System;
+#if NET45
 using System.Runtime.Serialization;
+#endif
 
 namespace Rock.Configuration
 {
     /// <summary>
     /// The exception that is thrown when an invalid configuration is encountered.
     /// </summary>
+#if NET45
     [Serializable]
+#endif
     public class InvalidConfigurationException : Exception
     {
         private const string _defaultMessage = "Error: invalid configuration.";
@@ -43,6 +47,7 @@ namespace Rock.Configuration
             _documentFragment = documentFragment;
         }
 
+#if NET45
         /// <summary>
         /// Initializes a new instance of the <see cref="InvalidConfigurationException"/> class.
         /// </summary>
@@ -59,6 +64,7 @@ namespace Rock.Configuration
             base.GetObjectData(info, context);
             info.AddValue("documentFragment", _documentFragment);
         }
+#endif
 
         /// <summary>
         /// Gets the document fragment that makes up a configuration section.

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NET45
+using System;
 using System.Reflection;
 
 namespace Rock.Reflection
@@ -18,9 +19,10 @@ namespace Rock.Reflection
         {
             var thisAssembly = Assembly.GetCallingAssembly();
 
-            var type = member as Type ?? member.DeclaringType;
+            var type = member as TypeInfo ?? member.DeclaringType.GetTypeInfo();
 
             return thisAssembly == type.Assembly;
         }
     }
 }
+#endif

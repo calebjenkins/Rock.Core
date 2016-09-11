@@ -1,7 +1,12 @@
 ﻿using System;
+#if NET45
 using System.Configuration;
+#else
+using Rock.Configuration;
+#endif
 using System.Runtime.CompilerServices;
 using Rock.Immutable;
+using System.Reflection;
 
 namespace Rock.BackgroundErrorLogging
 {
@@ -58,7 +63,7 @@ namespace Rock.BackgroundErrorLogging
             if (backgroundErrorLoggerTypeString != null)
             {
                 var backgroundErrorLoggerType = Type.GetType(backgroundErrorLoggerTypeString);
-                if (backgroundErrorLoggerType != null && typeof(IBackgroundErrorLogger).IsAssignableFrom(backgroundErrorLoggerType))
+                if (backgroundErrorLoggerType != null && typeof(IBackgroundErrorLogger).GetTypeInfo().IsAssignableFrom(backgroundErrorLoggerType))
                 {
                     try
                     {
@@ -71,8 +76,11 @@ namespace Rock.BackgroundErrorLogging
             }
 
             return new CompositeBackgroundErrorLogger(
-                new StandardErrorBackgroundErrorLogger(),
-                new WindowsEventLogBackgroundErrorLogger());
+                new StandardErrorBackgroundErrorLogger()
+#if NET45
+                , new WindowsEventLogBackgroundErrorLogger()
+#endif
+                );
         }
 
         private static BackgroundErrorLog CreateDefaultBackgroundErrorLog(

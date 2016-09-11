@@ -98,7 +98,7 @@ namespace Rock.Conversion
         private static Expression BoxIfNecessary(Expression expression)
         {
             return
-                expression.Type.IsValueType
+                expression.Type.GetTypeInfo().IsValueType
                     ? Expression.Convert(expression, typeof(object))
                     : expression;
         }

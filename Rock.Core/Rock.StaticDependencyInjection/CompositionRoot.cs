@@ -1,3 +1,4 @@
+#if NET45
 using Rock.BackgroundErrorLogging;
 using Rock.Conversion;
 using Rock.DependencyInjection;
@@ -58,7 +59,7 @@ namespace Rock.Rock.StaticDependencyInjection
             get
             {
                 const string key = "Rock.StaticDependencyInjection.Enabled";
-                var enabledValue = ConfigurationManager.AppSettings.Get(key) ?? "true";
+                var enabledValue = ConfigurationManager.AppSettings[key] ?? "true";
                 return enabledValue.ToLower() != "false";
             }
         }
@@ -88,3 +89,4 @@ namespace Rock.Rock.StaticDependencyInjection
         }
     }
 }
+#endif

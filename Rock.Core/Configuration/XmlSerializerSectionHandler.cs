@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NET45
+using System;
 using System.Configuration;
 using System.IO;
 using System.Xml;
@@ -89,3 +90,4 @@ namespace Rock.Configuration
         }
     }
 }
+#endif

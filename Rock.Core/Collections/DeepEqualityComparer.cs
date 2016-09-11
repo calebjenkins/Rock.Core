@@ -53,10 +53,12 @@ namespace Rock.Collections
                     return StringComparer.CurrentCulture;
                 case StringComparison.CurrentCultureIgnoreCase:
                     return StringComparer.CurrentCultureIgnoreCase;
+#if NET45
                 case StringComparison.InvariantCulture:
                     return StringComparer.InvariantCulture;
                 case StringComparison.InvariantCultureIgnoreCase:
                     return StringComparer.InvariantCultureIgnoreCase;
+#endif
                 case StringComparison.Ordinal:
                     return StringComparer.Ordinal;
                 case StringComparison.OrdinalIgnoreCase:
@@ -116,7 +118,7 @@ namespace Rock.Collections
                         {
                             if (t == typeof(string))
                             {
-                                return _stringComparer.Equals;
+                                return (l, r) => _stringComparer.Equals((string)l, (string)r);
                             }
 
                             var equatableType = t.GetClosedGenericType(typeof(IEquatable<>), new[] { t });
@@ -199,7 +201,7 @@ namespace Rock.Collections
 
                 Func<object, object, bool> valueEquals;
 
-                if (valueType.IsSealed
+                if (valueType.GetTypeInfo().IsSealed
                     && !CanCreateEqualsCycle(valueType, typesCurrentlyUnderConstruction))
                 {
                     valueEquals = GetOptimizedEqualsFunc(valueType, typesCurrentlyUnderConstruction);
@@ -496,7 +498,7 @@ namespace Rock.Collections
                 {
                     var itemType = closedIEnumerable.GetGenericArguments()[0];
 
-                    if (itemType.IsSealed
+                    if (itemType.GetTypeInfo().IsSealed
                         && !CanCreateEqualsCycle(itemType, typesCurrentlyUnderConstruction))
                     {
                         equalsFunc = GetOptimizedEqualsFunc(itemType, typesCurrentlyUnderConstruction.Concat(itemType));
@@ -564,7 +566,7 @@ namespace Rock.Collections
             {
                 var equalsFunc = RetrieveEqualsFunc(type, typesCurrentlyUnderConstruction);
 
-                if (type.IsValueType)
+                if (type.GetTypeInfo().IsValueType)
                 {
                     return
                         (lhs, rhs) =>
@@ -602,7 +604,7 @@ namespace Rock.Collections
                 var rhsPropertyValueExpression =
                     BoxIfNecessary(Expression.PropertyOrField(rhsParameterExpression, property.Name));
 
-                if (property.PropertyOrFieldType.IsSealed
+                if (property.PropertyOrFieldType.GetTypeInfo().IsSealed
                     && !CanCreateEqualsCycle(property.PropertyOrFieldType, typesCurrentlyUnderConstruction))
                 {
                     var equalsFunc = GetOptimizedEqualsFunc(property.PropertyOrFieldType, Type.EmptyTypes);
@@ -649,7 +651,7 @@ namespace Rock.Collections
                         {
                             if (t == typeof(string))
                             {
-                                return _stringComparer.GetHashCode;
+                                return obj => _stringComparer.GetHashCode((string)obj);
                             }
 
                             if (t.IsPrimitivish() || HasOverriddenGetHashCodeMethod(t))
@@ -692,14 +694,14 @@ namespace Rock.Collections
                     var keyType = closedIDictionary.GetGenericArguments()[0];
                     var valueType = closedIDictionary.GetGenericArguments()[1];
 
-                    needsNullCheck = !valueType.IsValueType;
+                    needsNullCheck = !valueType.GetTypeInfo().IsValueType;
 
-                    if (keyType.IsSealed)
+                    if (keyType.GetTypeInfo().IsSealed)
                     {
                         getKeyHashCodeFunc = GetTopLevelGetHashCodeFunc(keyType, typesCurrentlyUnderConstruction);
                     }
 
-                    if (valueType.IsSealed)
+                    if (valueType.GetTypeInfo().IsSealed)
                     {
                         getValueHashCodeFunc = GetTopLevelGetHashCodeFunc(valueType, typesCurrentlyUnderConstruction);
                     }
@@ -802,7 +804,7 @@ namespace Rock.Collections
                 {
                     var itemType = closedIEnumerable.GetGenericArguments()[0];
 
-                    if (itemType.IsSealed)
+                    if (itemType.GetTypeInfo().IsSealed)
                     {
                         getHashCodeFunc = GetTopLevelGetHashCodeFunc(itemType, typesCurrentlyUnderConstruction);
                     }
@@ -847,7 +849,7 @@ namespace Rock.Collections
 
                 var accumulateHashCodeMethod =
                     typeof(Implementation)
-                        .GetMethod("AccumulateHashCode", BindingFlags.Static | BindingFlags.NonPublic, null, new[] { typeof(int), typeof(object), typeof(Func<object, int>) }, null);
+                        .GetMethod("AccumulateHashCode", new[] { typeof(int), typeof(object), typeof(Func<object, int>) });
 
                 var getAggregatedHashCodeExpression =
                     properties
@@ -903,7 +905,7 @@ namespace Rock.Collections
             private static Expression BoxIfNecessary(Expression expression)
             {
                 return
-                    expression.Type.IsValueType
+                    expression.Type.GetTypeInfo().IsValueType
                         ? Expression.Convert(expression, typeof(object))
                         : expression;
             }

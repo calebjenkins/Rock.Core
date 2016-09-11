@@ -1,4 +1,6 @@
-﻿using System.Net.Mail;
+﻿#if NET45
+using System.Net.Mail;
+#endif
 using System.Threading.Tasks;
 
 namespace Rock.Mail

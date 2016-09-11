@@ -16,6 +16,7 @@ TestResults
 *.suo
 *.user
 *.sln.docstates
+.vs/
 
 # Build results
 [Dd]ebug/
@@ -93,6 +94,7 @@ csx
 AppPackages/
 
 # Others
+project.lock.json
 [Bb]in
 [Oo]bj
 sql
