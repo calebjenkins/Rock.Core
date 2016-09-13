@@ -1,5 +1,17 @@
 ﻿{
-  "version": "1.0.0-*",
+  "version": "0.9.10-alpha01",
+
+  "authors": [ "Brian Friesen", "Contributors" ],
+  "description": "Core classes and interfaces for Rock Framework.",
+  "packOptions": {
+    "copyright": "Copyright © Quicken Loans 2014-2016",
+    "owners": [ "Brian Friesen", "Quicken Loans" ],
+    "licenseUrl": "https://github.com/RockFramework/Rock.Core/blob/master/LICENSE.md",
+    "projectUrl": "http://rockframework.org/",
+    "requireLicenseAcceptance": false,
+    "summary": "Core classes and interfaces for Rock Framework."
+  },
+
   "dependencies": {
     
   },
