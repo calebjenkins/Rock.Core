@@ -36,7 +36,7 @@ namespace Rock.Serialization
         public XmlDeserializationProxyEngine(
             object proxyInstance, Type defaultType, Type baseClassType)
         {
-            if (defaultType == null && !typeof(TTarget).IsAbstract)
+            if (defaultType == null && !typeof(TTarget).GetTypeInfo().IsAbstract)
             {
                 defaultType = typeof(TTarget);
             }
@@ -390,7 +390,7 @@ namespace Rock.Serialization
         {
             return AdditionalXElements.Concat(
                 AdditionalXmlElements.Select(x =>
-                    XElement.Load(x.CreateNavigator().ReadSubtree())));
+                    XElement.Parse(x.OuterXml)));
         }
 
         private IEnumerable<ValueFactory> GetMatchingProxyProperties(
@@ -474,7 +474,7 @@ namespace Rock.Serialization
 
                     if (serializer == null)
                     {
-                        if (targetMemberType.IsInterface || targetMemberType.IsAbstract)
+                        if (targetMemberType.GetTypeInfo().IsInterface || targetMemberType.GetTypeInfo().IsAbstract)
                         {
                             value = null;
                             return false;
@@ -507,7 +507,7 @@ namespace Rock.Serialization
 
             if (converter.CanConvertFrom(typeof(string)))
             {
-                if (type.IsEnum)
+                if (type.GetTypeInfo().IsEnum)
                 {
                     stringValue = _enumFlagsRegex.Replace(stringValue, ",");
                 }

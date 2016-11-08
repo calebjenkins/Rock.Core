@@ -54,6 +54,10 @@
         "System.Configuration": {
           "type": "build",
           "version": "4.0.0"
+        },
+        "System.Xml.Linq": {
+          "type": "build",
+          "version": "4.0.0"
         }
       }
     }
